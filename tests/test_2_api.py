@@ -52,8 +52,22 @@ def test_create():
     assert api.delete_user(responsible.json()['id']).status_code == HTTPStatus.NO_CONTENT
 
 
+def test_register_suc():
+    responsible = api.register_suc()
+
+    assert responsible.status_code == HTTPStatus.OK
+    Assert.validate_schema(responsible.json())
 
 
+def test_register_unsuc():
+    responsible = api.register_unsuc()
+    responsible_body = responsible.json()
 
+    assert responsible.status_code == HTTPStatus.BAD_REQUEST
+    Assert.validate_schema(responsible.json())
 
-
+    assert responsible_body
+    example = {
+        'error': 'Missing password'
+                }
+    assert example == responsible_body

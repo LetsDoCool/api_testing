@@ -6,6 +6,7 @@ from api.client import Client
 class Api(Client):
     USERS = '/users'
     BASE_URL = 'https://reqres.in/api'
+    REGISTER = '/register'
 
     def list_users(self):
         """
@@ -62,6 +63,44 @@ class Api(Client):
         """
         url = self.BASE_URL + self.USERS + F'/{id}'
         return self.delete(url)
+
+    def register_suc(self):
+        """
+        :method: post
+        :rout:  /register
+        :status: 200
+        :body:  {
+                    'email: '',
+                    'password': ''
+                }
+        """
+        url = self.BASE_URL + self.REGISTER
+        payload = json.dumps({
+            'email': 'eve.holt@reqres.in',
+            'password': '12345'
+        })
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        return self.post(url, headers, payload)
+
+    def register_unsuc(self):
+        """
+        :method: post
+        :rout:  /register
+        :status: 400
+        :body:  {
+                    'email: '',
+                }
+        """
+        url = self.BASE_URL + self.REGISTER
+        payload = json.dumps({
+            'email': 'eve.holt@reqres.in',
+        })
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        return self.post(url, headers, payload)
 
 
 api = Api()
